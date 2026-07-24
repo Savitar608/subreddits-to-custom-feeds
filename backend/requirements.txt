@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+praw
+sentence-transformers
+pydantic
+scikit-learn
+hdbscan
