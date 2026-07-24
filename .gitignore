@@ -3,4 +3,7 @@ dist/
 .env
 venv/
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
 package-lock.json
