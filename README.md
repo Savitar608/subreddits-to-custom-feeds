@@ -1,4 +1,4 @@
-# Reddit Custom Feed Clusterer
+# Reddit ClusterFeed
 
 An AI-powered web application that automatically groups your Reddit subscriptions into thematic **Custom Feeds** (multireddits) using machine learning. Instead of manually sorting subreddits, this tool dynamically clusters subreddits by topic, tone, and semantic similarity.
 

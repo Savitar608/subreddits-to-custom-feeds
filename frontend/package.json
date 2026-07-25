@@ -1,5 +1,5 @@
 {
-    "name": "subreddits-to-custom-feeds-frontend",
+    "name": "reddit-clusterfeed",
     "private": true,
     "version": "1.0.0",
     "type": "module",
