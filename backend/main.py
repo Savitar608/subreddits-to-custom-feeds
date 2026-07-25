@@ -78,7 +78,7 @@ def cluster_user_subreddits(req: OAuthCallbackRequest):
         
         # 5. Dynamic Clustering with HDBSCAN
         # min_cluster_size=2 ensures even a tiny niche of 2 subreddits forms a custom feed
-        clusterer = hdbscan.HDBSCAN(min_cluster_size=2, core_dist_n_jobs=1)
+        clusterer = hdbscan.HDBSCAN(min_cluster_size=2, min_samples=1, core_dist_n_jobs=1)
         cluster_labels = clusterer.fit_predict(embeddings)
             
         # 6. Group the results
