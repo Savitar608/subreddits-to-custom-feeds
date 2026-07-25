@@ -17,6 +17,7 @@ export default function App() {
     const [clusters, setClusters] = useState([]);
     const [refreshToken, setRefreshToken] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
+    const [saveResults, setSaveResults] = useState([]); // Tracks creation vs skipped
 
     // Reddit OAuth Settings
     // Ensure this matches the Client ID from your Reddit Developer Portal
@@ -97,6 +98,8 @@ export default function App() {
 
             if (!response.ok) throw new Error("Failed to save custom feeds.");
 
+            const data = await response.json();
+            setSaveResults(data.results);
             setAppState('success');
         } catch (err) {
             setErrorMessage(err.message);
@@ -204,17 +207,39 @@ export default function App() {
     );
 
     const renderSuccess = () => (
-        <div className="text-center space-y-6 animate-in zoom-in-95 duration-500">
+        <div className="text-center space-y-6 animate-in zoom-in-95 duration-500 w-full max-w-2xl mx-auto">
             <div className="mx-auto w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mb-8">
                 <CheckCircle2 className="w-12 h-12 text-emerald-500" />
             </div>
             <h2 className="text-3xl font-bold text-slate-900">All Done!</h2>
-            <p className="text-slate-600 max-w-md mx-auto">
-                Your new custom feeds have been successfully created. Check the left sidebar on your Reddit homepage to see them.
+            <p className="text-slate-600 max-w-md mx-auto mb-6">
+                Here is the status of your Custom Feeds. Check the left sidebar on your Reddit homepage to see them.
             </p>
-            <div className="pt-6">
+
+            <div className="text-left bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-6">
+                <ul className="divide-y divide-slate-200">
+                    {saveResults.map((result, idx) => (
+                        <li key={idx} className="p-4 flex items-start justify-between">
+                            <div>
+                                <p className="font-bold text-slate-900">{result.name}</p>
+                                <p className="text-sm text-slate-500">
+                                    {result.status === 'success' ? 'Successfully created.' : result.message}
+                                </p>
+                            </div>
+                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${result.status === 'success' ? 'bg-emerald-100 text-emerald-700' :
+                                    result.status === 'skipped' ? 'bg-amber-100 text-amber-700' :
+                                        'bg-red-100 text-red-700'
+                                }`}>
+                                {result.status.toUpperCase()}
+                            </span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            <div className="pt-2">
                 <button
-                    onClick={() => { setAppState('login'); setClusters([]); }}
+                    onClick={() => { setAppState('login'); setClusters([]); setSaveResults([]); }}
                     className="text-slate-500 hover:text-slate-900 font-medium transition-colors"
                 >
                     Start Over
@@ -248,7 +273,7 @@ export default function App() {
             <header className="px-6 py-4 border-b border-slate-200 bg-white shadow-sm flex items-center shrink-0">
                 <div className="flex items-center space-x-2">
                     <Network className="w-6 h-6 text-orange-500" />
-                    <span className="font-bold text-lg tracking-tight">Reddit Subs to Custom Feeds</span>
+                    <span className="font-bold text-lg tracking-tight">ClusterFeed</span>
                 </div>
             </header>
 
