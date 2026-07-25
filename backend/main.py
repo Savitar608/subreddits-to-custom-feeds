@@ -9,7 +9,7 @@ from sentence_transformers import SentenceTransformer
 import hdbscan
 
 # Initialize the FastAPI app
-app = FastAPI(title="Reddit Subs to Custom Feeds", version="1.0")
+app = FastAPI(title="Reddit ClusterFeed", version="1.0")
 
 # For the react frontend to communicate with this backend, we need to allow CORS (Cross-Origin Resource Sharing)
 app.add_middleware(
